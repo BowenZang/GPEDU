@@ -32,14 +32,11 @@ public class AppTest {
     @Test
     public void queryCount() {
         String sql = "SELECT COUNT(1) total FROM user";
-        Long count = JdbcTemplate.select(sql, new IRowMapper<Long>() {
-            @Override
-            public Long mapping(ResultSet rs) throws SQLException {
-                while (rs.next()) {
-                    return rs.getLong("total");
-                }
-                return null;
+        Long count = JdbcTemplate.select(sql, rs -> {
+            while (rs.next()) {
+                return rs.getLong("total");
             }
+            return null;
         });
         System.out.println(count);
     }
@@ -68,6 +65,52 @@ public class AppTest {
     public void delete() {
         String sql = "DELETE FROM user WHERE id = ?";
         int result = JdbcTemplate.delete(sql, "4");
+        System.out.println(result);
+    }
+
+    @Test
+    public void query1() {
+        String sql = "SELECT * FROM user WHERE user_id = ?";
+        List<UserDO> userDOList = JdbcPoolTemplate.select(sql, new UserRowMapper(), "22222222");
+        System.out.println(userDOList);
+    }
+
+    @Test
+    public void queryCount1() {
+        String sql = "SELECT COUNT(1) total FROM user";
+        Long count = JdbcPoolTemplate.select(sql, rs -> {
+            while (rs.next()) {
+                return rs.getLong("total");
+            }
+            return null;
+        });
+        System.out.println(count);
+    }
+
+    @Test
+    public void save1() {
+        String sql = "INSERT INTO `user` (user_id, user_name, mobile_phone) VALUES (?, ?, ?)";
+        UserDO userDO = new UserDO();
+        userDO.setUserId("44444444");
+        userDO.setUserName("TEST");
+        userDO.setMobilePhone("13844444444");
+        int result = JdbcPoolTemplate.insert(sql, userDO.getUserId(), userDO.getUserName(), userDO.getMobilePhone());
+        System.out.println(result);
+    }
+
+    @Test
+    public void update1() {
+        String sql = "UPDATE `user` SET user_name = ? WHERE id = ?";
+        UserDO userDO = new UserDO();
+        userDO.setUserName("TEST_UPDATE");
+        int result = JdbcPoolTemplate.update(sql, userDO.getUserName(), "4");
+        System.out.println(result);
+    }
+
+    @Test
+    public void delete1() {
+        String sql = "DELETE FROM user WHERE id = ?";
+        int result = JdbcPoolTemplate.delete(sql, "4");
         System.out.println(result);
     }
 }
