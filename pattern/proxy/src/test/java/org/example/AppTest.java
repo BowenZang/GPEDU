@@ -3,6 +3,7 @@ package org.example;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import net.sf.cglib.core.DebuggingClassWriter;
 import org.example.cglibproxy.CglibMeipo;
 import org.example.jdkproxy.IPerson;
 import org.example.jdkproxy.LiSi;
@@ -82,8 +83,8 @@ public class AppTest
 
     @Test
     public void cglibProxyTest() {
-        CglibMeipo<IOrderService> cglibMeipo = new CglibMeipo<>();
-        IOrderService orderService = cglibMeipo.getInstance(OrderServiceImpl.class);
+        System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "/Users/bowenzang/IdeaProjects/GPEDU/pattern/proxy");
+        IOrderService orderService = new CglibMeipo<IOrderService>().getInstance(OrderServiceImpl.class);
         Order order = new Order();
         order.setId(111111111L);
         order.setOrderInfo("Order one");
