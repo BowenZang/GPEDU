@@ -2,6 +2,8 @@ package org.example;
 
 import static org.junit.Assert.assertTrue;
 
+import org.example.gp.Node;
+import org.example.gp.Tree;
 import org.example.lucency.Course;
 import org.example.lucency.CourseComponent;
 import org.example.lucency.CoursePackage;
@@ -82,5 +84,39 @@ public class AppTest
         folderC.add(fileC);
 
         root.show();
+    }
+
+    @Test
+    public void gpTreeTest() {
+        System.out.println("=================GP安全组合模式=================");
+        Node nodeRoot = new Node("nodeRoot");
+        Node nodeA = new Node("nodeA");
+        Node nodeB = new Node("nodeB");
+        Node nodeC = new Node("nodeC");
+
+        Tree treeRoot = new Tree("treeRoot", 1);
+        Tree treeA = new Tree("treeA", 2);
+        Tree treeB = new Tree("treeB", 2);
+        Tree treeC = new Tree("treeC", 2);
+
+        Tree treeAA = new Tree("treeAA", 3);
+        Tree treeBB = new Tree("treeBB", 3);
+        Tree treeCC = new Tree("treeCC", 3);
+
+        treeRoot.addNode(treeA);
+        treeRoot.addNode(treeB);
+        treeRoot.addNode(treeC);
+        treeRoot.addNode(nodeRoot);
+
+        treeA.addNode(treeAA);
+        treeA.addNode(nodeA);
+
+        treeB.addNode(treeBB);
+        treeB.addNode(nodeB);
+
+        treeC.addNode(treeCC);
+        treeC.addNode(nodeC);
+
+        treeRoot.print();
     }
 }
