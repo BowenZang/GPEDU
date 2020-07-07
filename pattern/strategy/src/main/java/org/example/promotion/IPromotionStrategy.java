@@ -5,4 +5,7 @@ package org.example.promotion;
  * @since Create by BowenZang on 2020-07-07 17:11:13
  */
 public interface IPromotionStrategy {
+
+    void doPromotion();
+
 }
